@@ -1,60 +1,103 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-    <link rel="manifest" href="favicon/site.webmanifest">
-    <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="favicon/site.webmanifest" />
+    <link
+      rel="mask-icon"
+      href="favicon/safari-pinned-tab.svg"
+      color="#5bbad5"
+    />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
     <title>Deliverando</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-</head>
-<body onload="render()">
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+  </head>
+  <body onload="render()">
     <header class="receipt-menu">
-        <div class="container-1">
-            <button class="backward"><img src="icons/arrow-left-solid.svg" alt="Zurück"> </button>
-            <img class="logo" src="/icons/Logo_m.svg" alt="logo">
+      <div class="container-1">
+        <button class="backward">
+          <img src="icons/arrow-left-solid.svg" alt="Zurück" />
+        </button>
+        <img class="logo" src="/icons/Logo_m.svg" alt="logo" />
+      </div>
+      <div class="container-2"><h4>Speisekarte</h4></div>
+      <div class="container-3">
+        <div class="sub-container">
+          <img class="menu-flag" src="icons/geman-flag.jpg" alt="menu bars" />
         </div>
-        <div class="container-2"><h4>Speisekarte</h4></div>
-        <div class="container-3">
-            <div class="sub-container"><img class="menu-flag" src="icons/geman-flag.jpg" alt="menu bars"></div>
-            <div class="sub-container"><img class="menu-bar" src="icons/bars-solid.svg" alt="menu bars"></div>
+        <div class="sub-container">
+          <img class="menu-bar" src="icons/bars-solid.svg" alt="menu bars" />
         </div>
+      </div>
     </header>
-    <!-- <div>
-        <div></div>
-        <div></div>
-    </div> -->
-    <div class="main-receipe-image"><img class="main-image" src="/images/lenon-mwamtobe.jpg" alt="main-receipe-image"></div>
-    <div class="overlay">
-        <h2 class="Warenkorb">Warenkorb</h2>
-        <img class="cart" src="icons/cart-shopping-solid.svg" alt="shopping-bag">
-        <h2>Fülle deinen Warenkorb</h2>
-        <p>Füge einige leckere Gerichte aus der Speisekarte hinzu und bestelle dein Essen.</p>
-    </div>
-    <div class="info-container" id="info-container1">
-        <div class="adjust-position">
+    <div class="layout-sectionning">
+      <div class="division">
+        <div class="main-receipe-image">
+          <img
+            class="main-image"
+            src="/images/lenon-mwamtobe.jpg"
+            alt="main-receipe-image"
+          />
+        </div>
+        <div class="info-container" id="info-container1">
+          <div class="adjust-position">
             <div><h2 class="name-receipe">Mustername</h2></div>
             <div class="info-like-icons">
-                <img class="icon-sec" src="icons/circle-info-solid.svg" alt="info">
-                <img class="icon-sec" src="icons/heart-regular.svg" alt="favorite">
+              <img
+                class="icon-sec"
+                src="icons/circle-info-solid.svg"
+                alt="info"
+              />
+              <img
+                class="icon-sec"
+                src="icons/heart-regular.svg"
+                alt="favorite"
+              />
             </div>
+          </div>
         </div>
+        <div id="menu-container" class="menu-container"></div>
+      </div>
+      <div class="overlay">
+        <h2 class="Warenkorb">Warenkorb</h2>
+        <img
+          class="cart"
+          src="icons/cart-shopping-solid.svg"
+          alt="shopping-bag"
+        />
+        <h2 class="fill-cart">Fülle deinen Warenkorb</h2>
+        <p>
+          Füge einige leckere Gerichte aus der Speisekarte hinzu und bestelle
+          dein Essen.
+        </p>
+      </div>
     </div>
-    <div id="menu-container" class="menu-container"></div>
     <footer>
-        <div class="footer-element">
-            <!-- <img class="footer-logo-icon" src="/icons/Logo_m.svg" alt="Logo"> -->
-            <div>
-                <a href="#">Datenschutz</a> | <a href="#">Impressum</a>
-            </div>            
-        </div>
-        <div class="copyright">&copy; 2023 Deliverando</div>
+      <div class="footer-element">
+        <!-- <img class="footer-logo-icon" src="/icons/Logo_m.svg" alt="Logo"> -->
+        <div><a href="#">Datenschutz</a> | <a href="#">Impressum</a></div>
+      </div>
+      <div class="copyright">&copy; 2023 Deliverando</div>
     </footer>
     <script type="text/javascript" src="script.js"></script>
-</body>
+  </body>
 </html>
