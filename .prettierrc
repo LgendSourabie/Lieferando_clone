@@ -1,5 +1,4 @@
 {
-    "arrowParens": "avoid",
-    "singleQuote": true,
-    "quoteProps": "as-needed"
+  "arrowParens": "avoid",
+  "singleQuote": true
 }

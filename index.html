@@ -1,103 +1,255 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="recept.js"></script>
+    <link rel="stylesheet" href="font.css" />
+
     <link
       rel="apple-touch-icon"
       sizes="180x180"
-      href="favicon/apple-touch-icon.png"
+      href="./favicon/apple-touch-icon.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="favicon/favicon-32x32.png"
+      href="./favicon/favicon-32x32.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="favicon/favicon-16x16.png"
+      href="./favicon/android-chrome-384x384.png"
     />
-    <link rel="manifest" href="favicon/site.webmanifest" />
     <link
       rel="mask-icon"
-      href="favicon/safari-pinned-tab.svg"
+      href="./favicon/safari-pinned-tab.svg"
       color="#5bbad5"
     />
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
+
     <title>Deliverando</title>
-    <link rel="stylesheet" type="text/css" href="styles.css" />
   </head>
-  <body onload="render()">
-    <header class="receipt-menu">
-      <div class="container-1">
-        <button class="backward">
-          <img src="icons/arrow-left-solid.svg" alt="Zurück" />
-        </button>
-        <img class="logo" src="/icons/Logo_m.svg" alt="logo" />
-      </div>
-      <div class="container-2"><h4>Speisekarte</h4></div>
-      <div class="container-3">
-        <div class="sub-container">
-          <img class="menu-flag" src="icons/geman-flag.jpg" alt="menu bars" />
-        </div>
-        <div class="sub-container">
-          <img class="menu-bar" src="icons/bars-solid.svg" alt="menu bars" />
-        </div>
+  <body>
+    <header>
+      <img class="logo" src="./icons/logo_orange.png" alt="logo" />
+      <h2 class="arial font-16">Speisekarte</h2>
+      <div class="icon-group display-flex">
+        <img
+          class="icon de-flag"
+          src="/icons/germany-flag.png"
+          alt="DE-Flagge"
+        />
+        <img
+          class="icon sandwich-menu"
+          src="/icons/bars-solid.svg"
+          alt="Menu"
+        />
       </div>
     </header>
-    <div class="layout-sectionning">
-      <div class="division">
-        <div class="main-receipe-image">
-          <img
-            class="main-image"
-            src="/images/lenon-mwamtobe.jpg"
-            alt="main-receipe-image"
-          />
-        </div>
-        <div class="info-container" id="info-container1">
-          <div class="adjust-position">
-            <div><h2 class="name-receipe">Mustername</h2></div>
-            <div class="info-like-icons">
+    <section>
+      <div class="left-side-container">
+        <div class="image-container"></div>
+        <div class="restaurant-description-section">
+          <div class="name-line">
+            <p class="arial owner-name"><b>Shery House</b></p>
+            <div class="info-heart-icon-grp">
               <img
-                class="icon-sec"
-                src="icons/circle-info-solid.svg"
-                alt="info"
+                class="icons-shape"
+                src="/icons/circle-info-solid.svg"
+                alt=""
               />
-              <img
-                class="icon-sec"
-                src="icons/heart-regular.svg"
-                alt="favorite"
-              />
+              <img class="icons-shape" src="/icons/heart-regular.svg" alt="" />
             </div>
           </div>
+          <div class="review-line">
+            <div id="review">
+              <img
+                class="icons-shape-small bg-orange"
+                src="/icons/star-solid.svg"
+                alt="review"
+              />
+              <img
+                class="icons-shape-small bg-orange"
+                src="/icons/star-solid.svg"
+                alt="review"
+              />
+              <img
+                class="icons-shape-small bg-orange"
+                src="/icons/star-solid.svg"
+                alt="review"
+              />
+              <img
+                class="icons-shape-small bg-orange"
+                src="/icons/star-solid.svg"
+                alt="review"
+              />
+              <img
+                class="icons-shape-small bg-orange"
+                src="/icons/star-solid.svg"
+                alt="review"
+              />
+            </div>
+            <a href="#"><span>9,5k </span>Bewertungen</a>
+          </div>
+          <div id="deliver-cost-line" class="deliver-cost-line font-14">
+            <img
+              class="icons-shape-small"
+              src="./icons/cart-shopping-solid.svg"
+              alt=""
+            />
+            <p id="location" class="p-margin grey">
+              Min. 18,90 € <b>&#183;</b>
+            </p>
+            <img
+              class="icons-shape-small bg-green"
+              src="./icons/bicycle-solid.svg"
+              alt=""
+            />
+            <p class="p-margin green">Kostenlos</p>
+          </div>
+          <div class="introduction-line">
+            <p class="p-margin grey font-14 para">
+              Seit 20 Jahren Ihr indisches Restaurant in Schwabing. Unsere
+              Gerichte werden stets frisch, <br />von ausgebildeten indischen
+              Spezialitäten-Köchen für Sie zubereitet.Wir freuen uns auf<br />
+              Ihre Bestellung und wünschen einen Guten Appetit!
+            </p>
+            <p class="p-margin grey font-14 para">
+              Your Indian restaurant in Schwabing. <br />Our dishes are always
+              freshly prepared by cooks trained in Indian specialty dishes.<br />
+              We look forward to your order!
+            </p>
+            <button class="show-few font-14">Weniger anzeigen</button>
+          </div>
+          <div id="menu-type-line" class="menu-type-line">
+            <img
+              class="icons-shape search"
+              src="/icons/search-solid.svg"
+              alt="Suche"
+              onclick="searchRecept()"
+            />
+            <button class="menu-button arial font-14 button-activate">
+              Mittagsmenüs
+            </button>
+            <button class="menu-button arial font-14 button-desactivate">
+              Chicken Spezialitäten
+            </button>
+            <button class="menu-button arial font-14 button-desactivate">
+              Vorspeisen
+            </button>
+            <button class="menu-button arial font-14 button-desactivate">
+              Ente Spezialitäten
+            </button>
+            <button class="menu-button arial font-14 button-desactivate">
+              Vegane Spezialitäten
+            </button>
+            <button class="menu-button arial font-14 button-desactivate">
+              Dessert
+            </button>
+            <button class="menu-button arial font-14 button-desactivate">
+              Getränke
+            </button>
+          </div>
         </div>
-        <div id="menu-container" class="menu-container"></div>
+        <div id="recept-container" class="recept-container"></div>
+        <div class="impressum-line grey">
+          <h2 class="title-impressum">Impressum</h2>
+          <p class="p-margin">
+            Shery House <br />Shery House GmbH <br />Friedbergerstraße 160
+            <br />
+            86163 Augsburg <br />
+            Vertretungsberechtigt: Hallan Sweder <br />
+            <a href="mailto:max@muster.de">Sende uns eine E-Mail</a> <br />
+            Fax: 1234-56789
+          </p>
+          <br />
+          <p class="p-margin">
+            Registergericht: Amtsgericht Augsburg <br />
+            Registernummer: HRB Musternummer
+          </p>
+          <br />
+          <p class="p-margin">
+            Plattform der EU-Kommission zur Online-Streitbeilegung:
+            <a
+              href="https://ec.europa.eu/consumers/odr/main/index.cfm?event=main.home.chooseLanguage"
+              >https://ec.europa.eu/consumers/odr</a
+            >
+          </p>
+
+          <p class="p-margin">
+            Wir sind ein professioneller Anbieter.
+            <a
+              href="https://www.lieferando.de/kundenservice/artikel/welchen-status-haben-die-gelisteten-restaurants"
+              >Erfahre mehr</a
+            >
+            darüber, wie wir gemeinsam mit Lieferando.de die
+            Verbraucherverantwortung übernehmen.
+          </p>
+        </div>
       </div>
-      <div class="overlay">
-        <h2 class="Warenkorb">Warenkorb</h2>
-        <img
-          class="cart"
-          src="icons/cart-shopping-solid.svg"
-          alt="shopping-bag"
-        />
-        <h2 class="fill-cart">Fülle deinen Warenkorb</h2>
-        <p>
-          Füge einige leckere Gerichte aus der Speisekarte hinzu und bestelle
-          dein Essen.
-        </p>
+      <div class="right-side-container cart-section">
+        <h2 class="Warenkorb roboto">Warenkorb</h2>
+        <div class="delivery">
+          <button
+            id="delivery-button"
+            class="delivery-button"
+            onclick="shipping('delivery-button') ; restaurantLocation('delivery-button','Friedbergerstraße 160')"
+          >
+            <img
+              id="deliver-bicycle"
+              class="deliver-bicycle icons-shape bg-orange"
+              src="./icons/bicycle-solid.svg"
+              alt="Byke"
+            />
+            <span><b>Lieferung </b><br />30-55 min</span>
+          </button>
+          <button
+            id="take-button"
+            class="take-button"
+            onclick="shipping('take-button') ; restaurantLocation('take-button','Friedbergerstraße 160')"
+          >
+            <img
+              id="take-cart"
+              class="take-cart icons-shape"
+              src="icons/cart-shopping-solid.svg"
+              alt="shopping-bag"
+            />
+            <span><b>Abholung </b><br />15 min</span>
+          </button>
+        </div>
+        <div id="price-calc-section">
+          <img
+            class="cart"
+            src="icons/cart-shopping-solid.svg"
+            alt="shopping-bag"
+          />
+          <h2 class="fill-cart arial">Fülle deinen Warenkorb</h2>
+          <p class="fill-cart-info">
+            Füge einige leckere Gerichte aus der Speisekarte hinzu und bestelle
+            dein Essen.
+          </p>
+        </div>
       </div>
-    </div>
+    </section>
     <footer>
-      <div class="footer-element">
-        <!-- <img class="footer-logo-icon" src="/icons/Logo_m.svg" alt="Logo"> -->
-        <div><a href="#">Datenschutz</a> | <a href="#">Impressum</a></div>
+      <div class="links-line">
+        <a class="grey link" href="#">Ein Restaurant empfehlen</a>
+        <a class="grey link" href="#">Ein Restaurant anmelden</a>
+        <a class="grey link" href="#">Jobs</a>
+        <a class="grey link" href="#">AGB</a>
+        <a class="grey link" href="#">Datenschutzerklärung</a>
+        <a class="grey link" href="impressum.html">Impressum</a>
+        <a class="grey link" href="#">Verwendung von Cookies</a>
+        <a class="grey link" href="#">Bug Bounty</a>
+        <a class="grey link" href="#">Ethik-Hotline</a>
       </div>
-      <div class="copyright">&copy; 2023 Deliverando</div>
+      <div class="web-line grey font-16">&#169; 2023 Deliverando.de</div>
     </footer>
-    <script type="text/javascript" src="script.js"></script>
+    <script src="script.js"></script>
   </body>
 </html>
