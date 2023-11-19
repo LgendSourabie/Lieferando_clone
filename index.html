@@ -59,11 +59,15 @@
             <p class="arial owner-name"><b>Shery House</b></p>
             <div class="info-heart-icon-grp">
               <img
-                class="icons-shape"
+                class="icons-shape btn-heart-info-bg"
                 src="/icons/circle-info-solid.svg"
                 alt=""
               />
-              <img class="icons-shape" src="/icons/heart-regular.svg" alt="" />
+              <img
+                class="icons-shape btn-heart-info-bg"
+                src="/icons/heart-regular.svg"
+                alt=""
+              />
             </div>
           </div>
           <div class="review-line">
@@ -103,7 +107,7 @@
               alt=""
             />
             <p id="location" class="p-margin grey">
-              Min. 18,90 € <b>&#183;</b>
+              Min. <span id="min-order">18,90</span> € <b>&#183;</b>
             </p>
             <img
               class="icons-shape-small bg-green"
@@ -128,7 +132,7 @@
           </div>
           <div id="menu-type-line" class="menu-type-line">
             <img
-              class="icons-shape search"
+              class="icons-shape search btn-bg"
               src="/icons/search-solid.svg"
               alt="Suche"
               onclick="searchRecept()"
@@ -192,13 +196,14 @@
           </p>
         </div>
       </div>
-      <div class="right-side-container cart-section">
+      <div class="right-side-container">
+        <!-- <div>   Added -->
         <h2 class="Warenkorb roboto">Warenkorb</h2>
         <div class="delivery">
           <button
             id="delivery-button"
             class="delivery-button"
-            onclick="shipping('delivery-button') ; restaurantLocation('delivery-button','Friedbergerstraße 160')"
+            onclick="shipping('delivery-button') ;deliverPrice('delivery-button'); restaurantLocation('delivery-button','Friedbergerstraße 160')"
           >
             <img
               id="deliver-bicycle"
@@ -211,7 +216,7 @@
           <button
             id="take-button"
             class="take-button"
-            onclick="shipping('take-button') ; restaurantLocation('take-button','Friedbergerstraße 160')"
+            onclick="shipping('take-button');deliverPrice('take-button') ; restaurantLocation('take-button','Friedbergerstraße 160')"
           >
             <img
               id="take-cart"
@@ -222,7 +227,7 @@
             <span><b>Abholung </b><br />15 min</span>
           </button>
         </div>
-        <div id="price-calc-section">
+        <div id="price-calc-section" class="price-calc-section">
           <img
             class="cart"
             src="icons/cart-shopping-solid.svg"
@@ -234,6 +239,35 @@
             dein Essen.
           </p>
         </div>
+
+        <!-- ########################################## -->
+        <div id="button-pay-container" style="display: none">
+          <div class="width-100 font-15 grey margin-top-2">
+            <div class="show-inline width-100">
+              <p class="p-margin line-height-1" id="zw-sum">Zwischensumme</p>
+              <p class="p-margin line-height-1 font-16">
+                <span id="total-price-remark">0,00</span> €
+              </p>
+            </div>
+            <div id="delivery-bill" class="show-inline width-100">
+              <p class="p-margin line-height-1" id="send-price">Lieferkosten</p>
+              <p id="delivery-bill-total" class="p-margin line-height-1">
+                Kostenlos
+              </p>
+            </div>
+            <div class="show-inline width-100">
+              <p class="p-margin line-height-1" id="total-sum"><b>Gesamt</b></p>
+              <p class="p-margin line-height-1 font-16">
+                <b> <span id="total-price">0,00</span> €</b>
+              </p>
+            </div>
+          </div>
+          <button id="pay-button" class="pay-button arial">
+            Bezahlen( <span id="sum">0,00</span> €)
+          </button>
+        </div>
+
+        <!-- ########################################################## -->
       </div>
     </section>
     <footer>

@@ -1,4 +1,5 @@
 'use strict';
+const minDeliverPrice = 15.3;
 
 const render = function (receptType) {
   let receptContainer = document.getElementById('recept-container');
@@ -23,16 +24,23 @@ const render = function (receptType) {
 
 function subRender(receptContainer, receptType) {
   const receptR = receptType['dataR'];
+
+  document.getElementById('min-order').innerHTML = minDeliverPrice
+    .toFixed(2)
+    .replace('.', ',');
   for (let i = 0; i < receptR.length; i++) {
     const recepttype = receptR[i];
     receptContainer.innerHTML += /*html*/ `
-        <div id="recept-container_${i}" class="recept-type">
+        <div id="recept-container_${i}" class="recept-type" onclick="addReceptName('${
+      recepttype['name']
+    }',${recepttype['price']},${1})">
         <div class="name-line">
             <div class="name-info-grp">
                 <p class="p-margin"><b>${recepttype['name']}</b></p>
                 <img class="icons-shape" src="./icons/circle-info-solid.svg" alt="Info">
             </div>
-            <img class="icons-shape"  src="./icons/plus-solid.svg" alt="Hinzufügen">
+            <img id='img${i}' class="icons-shape btn-bg"  src="./icons/plus-solid.svg" alt="Hinzufügen">
+            <!-- <button id='btn${i}' style="display:none;"></button>   TO BE WRITTEN-->  
         </div>
         <p class="p-margin grey">${recepttype['description']}</p>
         <p class='price p-margin'><b>${germanPreis(
@@ -44,8 +52,9 @@ function subRender(receptContainer, receptType) {
 }
 
 const germanPreis = function (price) {
-  let toString = String(price.toFixed(2));
-  return toString.replace('.', ',');
+  let temp = price;
+  let toString_price = String(temp.toFixed(2));
+  return toString_price.replace('.', ',');
 };
 
 const shipping = function (Id) {
@@ -61,6 +70,37 @@ const shipping = function (Id) {
   id.style.backgroundColor = 'white';
   id.childNodes.item(1).style.filter =
     'invert(40%) sepia(81%) saturate(1285%) hue-rotate(1deg) brightness(98%) contrast(97%)';
+};
+
+const deliverPrice = function (Id) {
+  let deliverBill = document.getElementById('delivery-bill');
+  if (Id === 'take-button') {
+    deliverBill.style.display = 'none';
+  } else if (Id === 'delivery-button') {
+    deliverBill.style.display = 'flex';
+    ckeckout();
+  }
+};
+
+const ckeckout = function () {
+  let deliverBill = document.getElementById('delivery-bill');
+  if (
+    germanPreis(calculateBill(receptPrices)) >= germanPreis(minDeliverPrice)
+  ) {
+    deliverBill.style.display = '';
+    document.getElementById('pay-button').disabled = false;
+    document.getElementById('pay-button').style.color = 'white';
+    document.getElementById('pay-button').style.backgroundColor =
+      'rgb(243,104,5)';
+    // document.getElementById('delivery-bill-total').innerHTML = `Kostenlos`;
+  } else {
+    // deliverBill.style.display = 'none';
+    document.getElementById('button-pay-container').style.display = '';
+    document.getElementById('pay-button').disabled = true;
+    document.getElementById('pay-button').style.backgroundColor =
+      'rgb(239,237,234)';
+    document.getElementById('pay-button').style.color = '#3c4c4f';
+  }
 };
 
 const restaurantLocation = function (Id, Address) {
@@ -106,8 +146,8 @@ const closeButton = function () {
   search.innerHTML = '';
   search.innerHTML = /*html*/ `
      <img
-              class="icons-shape search"
-              src="/icons/search.svg"
+              class="icons-shape search btn-bg"
+              src="/icons/search-solid.svg"
               alt="Suche"
               onclick="searchRecept()"
             />
@@ -135,37 +175,82 @@ const closeButton = function () {
     `;
 };
 
+let receptNames = [];
+let receptPrices = [];
+let numberOrders = [];
+
 const fillCart = () => {
   let priceSection = document.getElementById('price-calc-section');
   priceSection.innerHTML = '';
-  priceSection.innerHTML = `Hallo`;
+
+  for (let i = 0; i < receptNames.length; i++) {
+    const counter = i;
+    const receptName = receptNames[i];
+    const receptPrice = receptPrices[i];
+    const numberOrder = numberOrders[i];
+    priceSection.innerHTML += `
+    <div class="cart-recept-title">
+      <div class="show-inline">
+        <p class="p-margin line-height-1"><b>${numberOrder}</b></p>
+        <p class="p-margin line-height-1"><b>${receptName}</b></p>
+      </div>
+      <div class="grey font-16">${germanPreis(receptPrice)} €</div>
+    </div>
+
+    <div class="cart-add-recept">
+      <a class="link-left grey font-16" href="#">Anmerkung <br> hinzufügen</a>
+      <div class="plus-minus-right">
+        <img class="icons-shape-small btn-bg" src="./icons/minus-solid.svg" alt="Entfernen">
+        <p class="del-btn">${numberOrder}</p>
+        <img class="icons-shape-small add-btn btn-bg" src="./icons/plus-solid.svg" alt="Hinzufügen">
+      </div>
+    </div>
+  `;
+    if (counter !== receptNames.length - 1) {
+      priceSection.innerHTML += ` <div class="separator-line"></div>`;
+    }
+  }
+
+  let sum = document.getElementById('sum');
+  let total_price = document.getElementById('total-price');
+  let total_price_remark = document.getElementById('total-price-remark');
+  total_price_remark.innerHTML = germanPreis(calculateBill(receptPrices));
+  sum.innerHTML = germanPreis(calculateBill(receptPrices));
+  total_price.innerHTML = germanPreis(calculateBill(receptPrices));
+  ckeckout();
+  document.getElementById('button-pay-container').style.display = '';
+};
+
+const addReceptName = (name, price, number) => {
+  if (!receptNames.includes(name)) {
+    receptNames.push(name);
+    receptPrices.push(price);
+    numberOrders.push(number);
+  } else {
+    let indexName = receptNames.indexOf(name);
+    receptPrices[indexName] += receptPrices[indexName];
+    numberOrders[indexName] += numberOrders[indexName];
+  }
+  fillCart();
+};
+
+// TO BE FINISH
+
+// function addItemNumber(index) {
+//   //   let element = document.getElementById(index);
+//   let btn = document.getElementById(`btn${index}`);
+//   document.getElementById(`img${index}`).style.display = 'none';
+//   btn.style.display = 'block';
+//   btn.innerHTML = `${receptPrices[index]}`;
+// }
+
+const calculateBill = function (priceArray) {
+  let totalBill = 0;
+  for (let j = 0; j < priceArray.length; j++) {
+    const unitPrice = priceArray[j];
+    totalBill = totalBill + unitPrice;
+  }
+  return totalBill;
 };
 
 render(recepts);
-
-{
-  /* <table>
-    <tr>
-        <td>Number</td>
-        <td>Nme</td>
-        <td></td>
-        <td></td>
-        <td>Price</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Anmerkung <br>hinzufügen</td>
-        <td> <button><img src="minus" alt=""></button></td>
-        <td>number</td>
-        <td><button><img src="minus" alt=""></button></td>
-    </tr>
-</table>
-<div>
-    <div><p>Zwischensumme</p> <p>Zsum</p></div>
-    <div><p>Lieferkosten</p> <p>Kostenlos</p></div>
-    <div><p>Gesamt</p> <p><b>sum</b></p></div>
-</div>
-<button>
-    Bezahlen(sum)
-</button> */
-}
