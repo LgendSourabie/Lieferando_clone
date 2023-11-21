@@ -1,4 +1,8 @@
 'use strict';
+
+let receptNames = [];
+let receptPrices = [];
+let numberOrders = [];
 const minDeliverPrice = 15.3;
 
 const render = function (receptType) {
@@ -40,10 +44,10 @@ function subRender(receptContainer, receptType) {
                 <img class="icons-shape" src="./icons/circle-info-solid.svg" alt="Info">
             </div>
             <img id='img${i}' class="icons-shape btn-bg"  src="./icons/plus-solid.svg" alt="Hinzufügen">
-            <!-- <button id='btn${i}' style="display:none;"></button>   TO BE WRITTEN-->  
+            <!-- <button id='btn${i}' style="display:none;"></button>   TO BE WRITTEN   -->
         </div>
         <p class="p-margin grey">${recepttype['description']}</p>
-        <p class='price p-margin'><b>${germanPreis(
+        <p class='price p-margin'><b>${toGermanPreis(
           recepttype['price']
         )} €</b></p>
     </div>
@@ -51,9 +55,8 @@ function subRender(receptContainer, receptType) {
   }
 }
 
-const germanPreis = function (price) {
-  let temp = price;
-  let toString_price = String(temp.toFixed(2));
+const toGermanPreis = function (price) {
+  let toString_price = String(price.toFixed(2));
   return toString_price.replace('.', ',');
 };
 
@@ -78,15 +81,13 @@ const deliverPrice = function (Id) {
     deliverBill.style.display = 'none';
   } else if (Id === 'delivery-button') {
     deliverBill.style.display = 'flex';
-    ckeckout();
+    checkout();
   }
 };
 
-const ckeckout = function () {
+function checkout() {
   let deliverBill = document.getElementById('delivery-bill');
-  if (
-    germanPreis(calculateBill(receptPrices)) >= germanPreis(minDeliverPrice)
-  ) {
+  if (calculateBill(receptPrices) >= minDeliverPrice) {
     deliverBill.style.display = '';
     document.getElementById('pay-button').disabled = false;
     document.getElementById('pay-button').style.color = 'white';
@@ -101,7 +102,7 @@ const ckeckout = function () {
       'rgb(239,237,234)';
     document.getElementById('pay-button').style.color = '#3c4c4f';
   }
-};
+}
 
 const restaurantLocation = function (Id, Address) {
   let location = document.getElementById('deliver-cost-line');
@@ -135,7 +136,7 @@ const searchRecept = function () {
   search.innerHTML = /*html*/ `
   <p class="p-margin"> <b>Suche im Menü</b></p>
   <div class="inline-input"> 
-  <input class="input" type="text" placeholder="Suche nach Gerichten, usw...">
+  <input id="search-recept" oninput="search()" class="input" type="text" placeholder="Suche nach Gerichten, usw...">
   <img id="close-button" onclick="closeButton()" class="icons-shape-small close-button" src="./icons/close.svg" alt="">
   </div>`;
 };
@@ -175,10 +176,6 @@ const closeButton = function () {
     `;
 };
 
-let receptNames = [];
-let receptPrices = [];
-let numberOrders = [];
-
 const fillCart = () => {
   let priceSection = document.getElementById('price-calc-section');
   priceSection.innerHTML = '';
@@ -194,7 +191,7 @@ const fillCart = () => {
         <p class="p-margin line-height-1"><b>${numberOrder}</b></p>
         <p class="p-margin line-height-1"><b>${receptName}</b></p>
       </div>
-      <div class="grey font-16">${germanPreis(receptPrice)} €</div>
+      <div class="grey font-16">${toGermanPreis(receptPrice)} €</div>
     </div>
 
     <div class="cart-add-recept">
@@ -214,10 +211,10 @@ const fillCart = () => {
   let sum = document.getElementById('sum');
   let total_price = document.getElementById('total-price');
   let total_price_remark = document.getElementById('total-price-remark');
-  total_price_remark.innerHTML = germanPreis(calculateBill(receptPrices));
-  sum.innerHTML = germanPreis(calculateBill(receptPrices));
-  total_price.innerHTML = germanPreis(calculateBill(receptPrices));
-  ckeckout();
+  total_price_remark.innerHTML = toGermanPreis(calculateBill(receptPrices));
+  sum.innerHTML = toGermanPreis(calculateBill(receptPrices));
+  total_price.innerHTML = toGermanPreis(calculateBill(receptPrices));
+  checkout();
   document.getElementById('button-pay-container').style.display = '';
 };
 
@@ -226,10 +223,16 @@ const addReceptName = (name, price, number) => {
     receptNames.push(name);
     receptPrices.push(price);
     numberOrders.push(number);
+    save('receptNames', receptNames);
+    save('receptPrices', receptPrices);
+    save('numberOrders', numberOrders);
   } else {
     let indexName = receptNames.indexOf(name);
     receptPrices[indexName] += receptPrices[indexName];
     numberOrders[indexName] += numberOrders[indexName];
+    save('receptNames', receptNames);
+    save('receptPrices', receptPrices);
+    save('numberOrders', numberOrders);
   }
   fillCart();
 };
@@ -251,6 +254,74 @@ const calculateBill = function (priceArray) {
     totalBill = totalBill + unitPrice;
   }
   return totalBill;
+};
+
+const search = function () {
+  let receptContainer = document.getElementById('recept-container');
+  receptContainer.innerHTML = '';
+
+  for (let j = 0; j < recepts.length; j++) {
+    const recept = recepts[j];
+
+    receptContainer.innerHTML += /*html*/ `<div class="recept-image-description">
+      <div id="image-recept-type_${j}" class="image-recept-type"></div>  
+          <p class="arial p-margin recept-type-name">${recept['nameR']}</p>
+          <p class="font-12 grey p-margin">${recept['descriptionR']}</p>  
+      </div> 
+   `;
+    document.getElementById(
+      `image-recept-type_${j}`
+    ).style.backgroundImage = `url('${recept['imageR']}')`;
+
+    filter(receptContainer, recept);
+  }
+};
+
+const filter = function (receptContainer, receptType) {
+  const receptR = receptType['dataR'];
+  let wordToFilter = document.getElementById('search-recept').value;
+  let wordToLower = wordToFilter.toLowerCase();
+  for (let i = 0; i < receptR.length; i++) {
+    const recepttype = receptR[i];
+    if (
+      wordToLower ===
+      recepttype['name'].substring(0, wordToLower.length).toLowerCase()
+    ) {
+      receptContainer.innerHTML += /*html*/ `
+      <div id="recept-container_${i}" class="recept-type" onclick="addReceptName('${
+        recepttype['name']
+      }',${recepttype['price']},${1})">
+      <div class="name-line">
+          <div class="name-info-grp">
+              <p class="p-margin"><b>${recepttype['name']}</b></p>
+              <img class="icons-shape" src="./icons/circle-info-solid.svg" alt="Info">
+          </div>
+          <img id='img${i}' class="icons-shape btn-bg"  src="./icons/plus-solid.svg" alt="Hinzufügen">
+      </div>
+      <p class="p-margin grey">${recepttype['description']}</p>
+      <p class='price p-margin'><b>${toGermanPreis(
+        recepttype['price']
+      )} €</b></p>
+  </div>
+      `;
+    }
+  }
+};
+
+const load = function () {
+  let namerecepte = JSON.parse(localStorage.getItem('receptNames'));
+  let pricerecepte = JSON.parse(localStorage.getItem('receptPrices'));
+  let numberrecepte = JSON.parse(localStorage.getItem('numberOrders'));
+  if (namerecepte && pricerecepte && numberrecepte) {
+    receptNames = namerecepte;
+    receptPrices = pricerecepte;
+    numberOrders = numberrecepte;
+    fillCart();
+  }
+};
+
+const save = function (key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
 };
 
 render(recepts);
