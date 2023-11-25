@@ -223,7 +223,7 @@ const chicken_specialities = [
   },
 ];
 
-const recepts = [
+const recipes = [
   {
     nameR: 'Mittagsmenüs',
     dataR: appetisers,

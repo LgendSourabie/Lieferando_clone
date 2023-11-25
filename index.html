@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html id="html" lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -34,10 +34,10 @@
 
     <title>Deliverando</title>
   </head>
-  <body onload="load()">
-    <header>
+  <body id="body-non-scroll" onload="load()">
+    <header id="header">
       <img class="logo" src="./icons/logo_orange.png" alt="logo" />
-      <h2 class="arial font-16">Speisekarte</h2>
+      <h2 class="arial font-16 fontSp-12">Speisekarte</h2>
       <div class="icon-group display-flex">
         <img
           class="icon de-flag"
@@ -48,13 +48,14 @@
           class="icon sandwich-menu"
           src="/icons/bars-solid.svg"
           alt="Menu"
+          onclick="openMenu()"
         />
       </div>
     </header>
     <section>
-      <div class="left-side-container">
+      <div id="left-side-container" class="left-side-container">
         <div class="image-container"></div>
-        <div class="restaurant-description-section">
+        <div class="restaurant-description-section padding-65">
           <div class="name-line">
             <p class="arial owner-name"><b>Shery House</b></p>
             <div class="info-heart-icon-grp">
@@ -64,6 +65,7 @@
                 alt=""
               />
               <img
+                id="heart"
                 class="icons-shape btn-heart-info-bg"
                 src="/icons/heart-regular.svg"
                 alt=""
@@ -129,6 +131,42 @@
               We look forward to your order!
             </p>
             <button class="show-few font-14">Weniger anzeigen</button>
+
+            <div class="delivery display-btn">
+              <button
+                id="delivery-button-middle"
+                class="delivery-button"
+                onclick="shipping('delivery-button-middle') ;deliverPrice('delivery-button'); restaurantLocation('delivery-button','Friedbergerstraße 160')"
+              >
+                <img
+                  id="deliver-bicycle-middle"
+                  class="deliver-bicycle icons-shape bg-orange"
+                  src="./icons/bicycle-solid.svg"
+                  alt="Byke"
+                />
+                <span><b>Lieferung </b><br />30-55 min</span>
+              </button>
+              <button
+                id="take-button-middle"
+                class="take-button"
+                onclick="shipping('take-button-middle');deliverPrice('take-button') ; restaurantLocation('take-button','Friedbergerstraße 160')"
+              >
+                <img
+                  id="take-cart-middle"
+                  class="take-cart icons-shape"
+                  src="icons/cart-shopping-solid.svg"
+                  alt="shopping-bag"
+                />
+                <span><b>Abholung </b><br />15 min</span>
+              </button>
+              <button
+                id="pay-button-responsive"
+                class="Warenkorb-middle arial"
+                onclick="showResponsivePriceCart()"
+              >
+                Bezahlen (<span id="sum-responsive">0,00</span> €)
+              </button>
+            </div>
           </div>
           <div id="menu-type-line" class="menu-type-line">
             <img
@@ -137,31 +175,48 @@
               alt="Suche"
               onclick="searchRecept()"
             />
-            <button class="menu-button arial font-14 button-activate">
+            <button
+              id="lunch"
+              class="menu-button arial font-14 button-activate"
+              onclick="activateMenuButton('lunch')"
+            >
               Mittagsmenüs
             </button>
-            <button class="menu-button arial font-14 button-desactivate">
+            <button
+              id="chicken"
+              class="menu-button arial font-14 button-desactivate"
+              onclick="activateMenuButton('chicken')"
+            >
               Chicken Spezialitäten
             </button>
-            <button class="menu-button arial font-14 button-desactivate">
+            <button
+              id="bef-lunch"
+              class="menu-button arial font-14 button-desactivate"
+              onclick="activateMenuButton('bef-lunch')"
+            >
               Vorspeisen
             </button>
-            <button class="menu-button arial font-14 button-desactivate">
+            <!-- <button class="menu-button arial font-14 button-desactivate">
               Ente Spezialitäten
-            </button>
-            <button class="menu-button arial font-14 button-desactivate">
-              Vegane Spezialitäten
-            </button>
-            <button class="menu-button arial font-14 button-desactivate">
+            </button> -->
+            <button
+              id="dessert"
+              class="menu-button arial font-14 button-desactivate"
+              onclick="activateMenuButton('dessert')"
+            >
               Dessert
             </button>
-            <button class="menu-button arial font-14 button-desactivate">
+            <button
+              id="drink"
+              class="menu-button arial font-14 button-desactivate"
+              onclick="activateMenuButton('drink')"
+            >
               Getränke
             </button>
           </div>
         </div>
-        <div id="recept-container" class="recept-container"></div>
-        <div class="impressum-line grey">
+        <div id="recept-container" class="recept-container padding-65"></div>
+        <div class="impressum-line grey padding-65">
           <h2 class="title-impressum">Impressum</h2>
           <p class="p-margin">
             Shery House <br />Shery House GmbH <br />Friedbergerstraße 160
@@ -196,9 +251,18 @@
           </p>
         </div>
       </div>
-      <div class="right-side-container">
+      <div id="right-side-container" class="right-side-container">
         <!-- <div>   Added -->
-        <h2 class="Warenkorb roboto">Warenkorb</h2>
+        <div id="Warenkorb-title" class="Warenkorb-title">
+          <h2 class="Warenkorb roboto">Warenkorb</h2>
+          <img
+            id="close-resp-cart-section"
+            class="icons-shape-small"
+            src="/icons/xmark-solid.svg"
+            alt=""
+            onclick="closeResponsivePriceSection()"
+          />
+        </div>
         <div class="delivery">
           <button
             id="delivery-button"
@@ -263,14 +327,102 @@
             </div>
           </div>
           <button id="pay-button" class="pay-button arial">
-            Bezahlen( <span id="sum">0,00</span> €)
+            Bezahlen (<span id="sum">0,00</span> €)
           </button>
         </div>
 
         <!-- ########################################################## -->
       </div>
     </section>
-    <footer>
+    <section id="overlay" class="overlay" style="display: none">
+      <div class="display-flex post-right">
+        <h1 class="account arial">Mein Account</h1>
+        <img
+          class="icons-shape cursor-effect"
+          src="./icons/xmark-solid.svg"
+          alt=""
+          onclick="closeMenu() "
+        />
+      </div>
+      <div class="register">
+        <button class="signin-button arial cursor-effect">Anmelden</button>
+        <button class="signup-button arial cursor-effect">
+          Account erstellen
+        </button>
+      </div>
+      <div class="overlay-subsection">
+        <div class="display-flex service-line">
+          <img
+            class="icons-shape"
+            src="./icons/cart-shopping-solid.svg"
+            alt=""
+          />
+          <p>Bestellungen</p>
+        </div>
+        <div class="display-flex service-line">
+          <img class="icons-shape" src="./icons/heart-regular.svg" alt="" />
+          <p>Favoriten</p>
+        </div>
+      </div>
+      <div class="separator-line"></div>
+      <div class="overlay-subsection">
+        <div class="display-flex service-line">
+          <img class="icons-shape" src="./icons/gift-solid.svg" alt="" />
+          <p>Punkte</p>
+        </div>
+        <div class="display-flex service-line">
+          <img class="icons-shape" src="./icons/stempelkarte.svg" alt="" />
+          <p>Stempelkarten</p>
+        </div>
+        <div class="display-flex service-line">
+          <img class="icons-shape" src="./icons/circle-info-solid.svg" alt="" />
+          <p>Brauchst du Hilfe?</p>
+        </div>
+        <div class="display-flex service-line">
+          <img
+            class="icons-shape-small"
+            src="./icons/building-regular.svg"
+            alt=""
+          />
+          <p>Geschenkkarten</p>
+        </div>
+      </div>
+      <div class="separator-line"></div>
+      <div class="overlay-subsection">
+        <div class="display-flex service-line">
+          <img class="icons-shape" src="./icons/bicycle.svg" alt="" />
+          <p>Fahrer*in werden</p>
+        </div>
+        <div class="display-flex service-line">
+          <img class="icons-shape" src="./icons/elementor.svg" alt="" />
+          <p>Deliverando for business</p>
+        </div>
+      </div>
+    </section>
+    <section
+      id="Warenkorb-responsive"
+      class="Warenkorb-responsive"
+      style="display: none"
+    >
+      <div class="display-flex post-right">
+        <h2 class="Warenkorb roboto">Warenkorb</h2>
+        <img class="icons-shape" src="/icons/xmark-solid.svg" alt="" />
+      </div>
+    </section>
+    <!-- <button
+      id="pay-button-responsive"
+      class="pay-button arial pos-display-btm"
+      style="display: none"
+      onclick="showResponsivePriceCart()"
+    >
+      Bezahlen( <span id="sum-responsive">0,00</span> €)
+    </button> -->
+    <section
+      id="overlay-blur"
+      class="overlay-blur"
+      style="display: none"
+    ></section>
+    <footer id="footer">
       <div class="links-line">
         <a class="grey link" href="#">Ein Restaurant empfehlen</a>
         <a class="grey link" href="#">Ein Restaurant anmelden</a>
