@@ -9,7 +9,7 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 3rem 0.5rem 3rem;
-  box-shadow: -2px 0px 6px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: -2px 0 6px 0 rgba(0, 0, 0, 0.2);
 }
 .new-bg {
   background-color: rgb(243, 104, 5);
@@ -267,8 +267,6 @@ section {
 }
 
 .recept-container {
-  /* padding-left: 6.5rem;
-  padding-right: 6.5rem; */
   margin-top: 4rem;
 }
 .name-line {
@@ -316,8 +314,7 @@ footer {
   align-items: center;
   justify-content: center;
   gap: 1.5rem;
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
+  padding-block: 2.5rem;
 }
 .links-line {
   display: flex;
@@ -616,7 +613,7 @@ footer {
   padding-block: 17px 17px;
   border-radius: 1000px;
   border: none;
-  color: white;
+  color: darkgray;
   cursor: pointer;
   flex-grow: 1;
 }

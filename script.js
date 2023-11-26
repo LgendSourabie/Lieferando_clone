@@ -3,7 +3,7 @@
 let receptNames = [];
 let receptPrices = [];
 let numberOrders = [];
-const minDeliverPrice = 15.3;
+const MIN_DELIVER_PRICE = 15.3;
 
 const render = function (receptType) {
   let receptContainer = document.getElementById('recept-container');
@@ -29,30 +29,34 @@ const render = function (receptType) {
 function subRender(receptContainer, receptType) {
   const receptR = receptType['dataR'];
 
-  document.getElementById('min-order').innerHTML = minDeliverPrice
-    .toFixed(2)
-    .replace('.', ',');
+  document.getElementById('min-order').innerHTML = MIN_DELIVER_PRICE.toFixed(
+    2
+  ).replace('.', ',');
   for (let i = 0; i < receptR.length; i++) {
     const recepttype = receptR[i];
-    receptContainer.innerHTML += /*html*/ `
-        <div id="recept-container_${i}" class="recept-type" onclick="addReceptName('${
-      recepttype['name']
-    }',${recepttype['price']},${1})">
+    receptContainer.innerHTML += renderHTMLRecipe(recepttype, i);
+  }
+}
+
+const renderHTMLRecipe = function (recepttype, index) {
+  return `
+        <div id="recept-container_${index}" class="recept-type" onclick="addReceptName('${
+    recepttype['name']
+  }',${recepttype['price']},${1})">
         <div class="name-line">
             <div class="name-info-grp">
                 <p class="p-margin"><b>${recepttype['name']}</b></p>
                 <img class="icons-shape" src="./icons/circle-info-solid.svg" alt="Info">
             </div>    
-            <img id='img${i}' class="icons-shape btn-bg"  src="./icons/plus-solid.svg" alt="Hinzufügen">
+            <img id='img${index}' class="icons-shape btn-bg"  src="./icons/plus-solid.svg" alt="Hinzufügen">
         </div>
         <p class="p-margin grey">${recepttype['description']}</p>
         <p class='price p-margin'><b>${toGermanPreis(
           recepttype['price']
         )} €</b></p>
-    </div>
-        `;
-  }
-}
+      </div>
+  `;
+};
 
 const toGermanPreis = function (price) {
   let toString_price = String(price.toFixed(2));
@@ -69,6 +73,11 @@ const shipping = function (Id) {
   deliverId.style.backgroundColor = 'rgb(239, 237, 234)';
   takeMiddleId.style.backgroundColor = 'rgb(239, 237, 234)';
   deliverMiddleId.style.backgroundColor = 'rgb(239, 237, 234)';
+  reinitializeButtonColor();
+  changeActiveButtonColor(id);
+};
+
+const reinitializeButtonColor = function () {
   document.getElementById('deliver-bicycle').style.filter =
     'invert(0%) sepia(100%) saturate(7500%) hue-rotate(189deg) brightness(111%) contrast(108%)';
   document.getElementById('take-cart').style.filter =
@@ -77,6 +86,9 @@ const shipping = function (Id) {
     'invert(0%) sepia(100%) saturate(7500%) hue-rotate(189deg) brightness(111%) contrast(108%)';
   document.getElementById('take-cart-middle').style.filter =
     'invert(0%) sepia(100%) saturate(7500%) hue-rotate(189deg) brightness(111%) contrast(108%)';
+};
+
+const changeActiveButtonColor = function (id) {
   id.style.backgroundColor = 'white';
   id.childNodes.item(1).style.filter =
     'invert(40%) sepia(81%) saturate(1285%) hue-rotate(1deg) brightness(98%) contrast(97%)';
@@ -102,8 +114,7 @@ const deliverPrice = function (Id) {
 };
 
 function checkout() {
-  if (calculateBill(receptPrices, numberOrders) >= minDeliverPrice) {
-    // deliverBill.style.display = '';
+  if (calculateBill(receptPrices, numberOrders) >= MIN_DELIVER_PRICE) {
     showPayButton();
   } else {
     hidepayButton();
@@ -213,19 +224,9 @@ const renderHTMLMenu = function () {
 const fillCart = () => {
   let priceSection = document.getElementById('price-calc-section');
   if (receptNames.length === 0) {
+    fillPrice();
+    priceSection.innerHTML = displayCartImage();
     document.getElementById('button-pay-container').style.display = 'none';
-    priceSection.innerHTML = `
-    <img
-    class="cart"
-    src="icons/cart-shopping-solid.svg"
-    alt="shopping-bag"
-  />
-  <h2 class="fill-cart arial">Fülle deinen Warenkorb</h2>
-  <p class="fill-cart-info">
-    Füge einige leckere Gerichte aus der Speisekarte hinzu und bestelle
-    dein Essen.
-  </p>
-    `;
   } else {
     priceSection.innerHTML = '';
 
@@ -234,56 +235,72 @@ const fillCart = () => {
       const receptName = receptNames[i];
       const receptPrice = receptPrices[i];
       const numberOrder = numberOrders[i];
-      priceSection.innerHTML += `
-    <div class="cart-recept-title">
-      <div class="show-inline">
-        <p class="p-margin line-height-1"><b>${numberOrder}</b></p>
-        <p class="p-margin line-height-1"><b>${receptName}</b></p>
-      </div>
-      <div class="grey font-16">${toGermanPreis(
-        receptPrice * numberOrder
-      )} €</div>
-    </div>
-
-    <div class="cart-add-recept">
-      <a class="link-left grey font-16" href="#">Anmerkung <br> hinzufügen</a>
-      <div class="plus-minus-right">
-        <img class="icons-shape-small btn-bg cursor-effect" src="./icons/minus-solid.svg" alt="Entfernen" onclick="decreaseOrder('${receptName}')">
-        <p class="del-btn">${numberOrder}</p>
-        <img id="${receptName}" class="icons-shape-small add-btn btn-bg cursor-effect" src="./icons/plus-solid.svg" alt="Hinzufügen" onclick="increaseOrder('${receptName}')">
-      </div>
-    </div>
-  `;
+      priceSection.innerHTML += renderHTMLCartItem(
+        receptName,
+        receptPrice,
+        numberOrder
+      );
       if (counter !== receptNames.length - 1) {
-        priceSection.innerHTML += ` <div class="separator-line"></div>`;
+        priceSection.innerHTML += ` <div class="separator-line"></div>`; // solange nicht das letzte Essen wird ein Trenner angezeigt
       }
     }
 
-    let sum = document.getElementById('sum');
-    let sum_resp = document.getElementById('sum-responsive');
-    let total_price = document.getElementById('total-price');
-    let total_price_remark = document.getElementById('total-price-remark');
-    total_price_remark.innerHTML = toGermanPreis(
-      calculateBill(receptPrices, numberOrders)
-    );
-    sum.innerHTML = toGermanPreis(calculateBill(receptPrices, numberOrders));
-    total_price.innerHTML = toGermanPreis(
-      calculateBill(receptPrices, numberOrders)
-    );
-    sum_resp.innerHTML = toGermanPreis(
-      calculateBill(receptPrices, numberOrders)
-    );
-    checkout();
-    document.getElementById('button-pay-container').style.display = '';
+    fillPrice();
   }
 };
 
-// const showunitOrder=function(nameRecepte,id){
-//   if (receptNames.includes(nameRecepte)) {
-//     let index = receptNames.indexOf(nameRecepte)
-//     document.getElementById(id).innerHTML=numberOrders[index]
-//   }
-//   }
+const renderHTMLCartItem = function (receptName, receptPrice, numberOrder) {
+  return `
+<div class="cart-recept-title">
+  <div class="show-inline">
+    <p class="p-margin line-height-1"><b>${numberOrder}</b></p>
+    <p class="p-margin line-height-1"><b>${receptName}</b></p>
+  </div>
+  <div class="grey font-16">${toGermanPreis(receptPrice * numberOrder)} €</div>
+</div>
+
+<div class="cart-add-recept">
+  <a class="link-left grey font-16" href="#">Anmerkung <br> hinzufügen</a>
+  <div class="plus-minus-right">
+    <img class="icons-shape-small btn-bg cursor-effect" src="./icons/minus-solid.svg" alt="Entfernen" onclick="decreaseOrder('${receptName}')">
+    <p class="del-btn">${numberOrder}</p>
+    <img id="${receptName}" class="icons-shape-small add-btn btn-bg cursor-effect" src="./icons/plus-solid.svg" alt="Hinzufügen" onclick="increaseOrder('${receptName}')">
+  </div>
+</div>
+`;
+};
+
+const fillPrice = function () {
+  let sum = document.getElementById('sum');
+  let sum_resp = document.getElementById('sum-responsive');
+  let total_price = document.getElementById('total-price');
+  let total_price_remark = document.getElementById('total-price-remark');
+  total_price_remark.innerHTML = toGermanPreis(
+    calculateBill(receptPrices, numberOrders)
+  );
+  sum.innerHTML = toGermanPreis(calculateBill(receptPrices, numberOrders));
+  total_price.innerHTML = toGermanPreis(
+    calculateBill(receptPrices, numberOrders)
+  );
+  sum_resp.innerHTML = toGermanPreis(calculateBill(receptPrices, numberOrders));
+  checkout();
+  document.getElementById('button-pay-container').style.display = '';
+};
+
+const displayCartImage = function () {
+  return `
+  <img
+  class="cart"
+  src="icons/cart-shopping-solid.svg"
+  alt="shopping-bag"
+/>
+<h2 class="fill-cart arial">Fülle deinen Warenkorb</h2>
+<p class="fill-cart-info">
+  Füge einige leckere Gerichte aus der Speisekarte hinzu und bestelle
+  dein Essen.
+</p>
+  `;
+};
 
 const addReceptName = (name, price, number) => {
   if (!receptNames.includes(name)) {
