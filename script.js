@@ -14,7 +14,7 @@ const render = function (receptType) {
 
     receptContainer.innerHTML += /*html*/ `<div class="recept-image-description">
     <div id="image-recept-type_${j}" class="image-recept-type"></div>  
-        <p class="arial p-margin recept-type-name">${recept['nameR']}</p>
+        <p id="recipe${j}" class="arial p-margin recept-type-name">${recept['nameR']}</p>
         <p class="font-12 grey p-margin">${recept['descriptionR']}</p>  
     </div> 
  `;
@@ -199,25 +199,25 @@ const renderHTMLMenu = function () {
   return `
     <img
              class="icons-shape search btn-bg"
-             src="/icons/search-solid.svg"
+             src="./icons/search-solid.svg"
              alt="Suche"
              onclick="searchRecept()"
            />
-           <button id="lunch" class="menu-button arial font-14 button-activate" onclick="activateMenuButton('lunch')">
+           <a id="lunch" class="menu-button arial font-14 button-activate" onclick="activateMenuButton('lunch')" href="#recipe0">
              Mittagsmenüs
-           </button>
-           <button id="chicken" class="menu-button arial font-14 button-desactivate" onclick="activateMenuButton('chicken')">
+           </a>
+           <a id="chicken" class="menu-button arial font-14 button-desactivate" onclick="activateMenuButton('chicken')" href="#recipe1">
              Chicken Spezialitäten
-           </button>
-           <button id="bef-lunch" class="menu-button arial font-14 button-desactivate" onclick="activateMenuButton('bef-lunch')">
+           </a>
+           <a id="bef-lunch" class="menu-button arial font-14 button-desactivate" onclick="activateMenuButton('bef-lunch')" href="#recipe2">
              Vorspeisen
-           </button>
-           <button id="dessert" class="menu-button arial font-14 button-desactivate" onclick="activateMenuButton('dessert')">
+           </a>
+           <a id="dessert" class="menu-button arial font-14 button-desactivate" onclick="activateMenuButton('dessert')" href="#recipe3">
              Dessert
-           </button>
-           <button id="drink" class="menu-button arial font-14 button-desactivate" onclick="activateMenuButton('drink')">
+           </a>
+           <a id="drink" class="menu-button arial font-14 button-desactivate" onclick="activateMenuButton('drink')" href="#recipe4">
              Getränke
-           </button>
+           </a>
    `;
 };
 
@@ -291,7 +291,7 @@ const displayCartImage = function () {
   return `
   <img
   class="cart"
-  src="icons/cart-shopping-solid.svg"
+  src="./icons/cart-shopping-solid.svg"
   alt="shopping-bag"
 />
 <h2 class="fill-cart arial">Fülle deinen Warenkorb</h2>

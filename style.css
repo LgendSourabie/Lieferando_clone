@@ -1,3 +1,6 @@
+html {
+  scroll-behavior: smooth;
+}
 body {
   margin: 0;
   min-height: 100vh;
@@ -37,7 +40,7 @@ header {
 }
 
 .arial {
-  font-family: 'Arial';
+  font-family: system-ui, 'Arial';
   font-weight: bold;
 }
 .display-flex {
@@ -79,7 +82,7 @@ h2 {
   margin-block-end: 0;
 }
 p {
-  font-family: 'Arial';
+  font-family: 'system-ui', 'Arial';
 }
 .overlay {
   padding: 28px;
@@ -88,10 +91,12 @@ p {
 .Warenkorb {
   padding-top: 28px;
   margin-bottom: 30px;
-  font-family: 'Arial';
+  font-family: system-ui, 'Arial';
 }
 .Warenkorb-title {
   display: flex;
+  width: 18rem;
+  justify-content: space-between;
 }
 .delivery {
   display: flex;
@@ -100,13 +105,14 @@ p {
   padding: 2px;
   border-radius: 33.6px;
   border: none;
-  margin-bottom: 2rem;
+  margin-block: 2rem;
+  margin-inline: auto;
 }
 .delivery-button,
 .take-button {
-  padding: 9px 15px 9px 27px;
+  padding: 9px 22px 9px 27px;
   border-radius: 25px;
-  font-family: 'Arial';
+  font-family: system-ui, 'Arial';
   border: none;
   display: flex;
   align-items: center;
@@ -150,6 +156,14 @@ p {
   font-weight: bold;
   margin-block-start: 0;
   margin-block-end: 0;
+}
+#lunch,
+#chicken,
+#bef-lunch,
+#dessert,
+#drink {
+  cursor: pointer;
+  text-decoration: none;
 }
 
 section {
@@ -395,7 +409,7 @@ footer {
 }
 
 .input::placeholder {
-  font-family: 'Arial';
+  font-family: system-ui, 'Arial';
   font-size: 16px;
 }
 .bright {
@@ -581,6 +595,14 @@ footer {
 .recept-type:hover .btn-unit-number {
   background-color: rgba(0, 0, 0, 0.05);
 }
+.Warenkorb-middle {
+  padding-block: 17px 17px;
+  border-radius: 1000px;
+  border: none;
+  color: darkgray;
+  cursor: pointer;
+  flex-grow: 1;
+}
 
 @media (width<1024px) {
   html {
@@ -588,12 +610,14 @@ footer {
   }
   .right-side-container {
     display: none;
+    justify-content: center;
   }
   .pos-display-btm {
     display: block;
   }
   .left-side-container {
     width: 100%;
+    /* width: 100%; */
   }
   .display-btn {
     display: flex;
@@ -608,14 +632,9 @@ footer {
     padding-inline: 6rem;
     padding-block: 1rem;
   }
-}
-.Warenkorb-middle {
-  padding-block: 17px 17px;
-  border-radius: 1000px;
-  border: none;
-  color: darkgray;
-  cursor: pointer;
-  flex-grow: 1;
+  #button-pay-container {
+    margin-bottom: unset;
+  }
 }
 
 @media (width<700px) {
@@ -627,6 +646,30 @@ footer {
     border-radius: unset;
     overflow-y: hidden;
     width: unset;
+  }
+  .delivery {
+    width: 18rem;
+    padding: unset;
+  }
+  .pay-button {
+    width: 18rem;
+  }
+
+  .delivery {
+    flex-direction: column;
+    background-color: white;
+    gap: 0.5rem;
+  }
+  .delivery-button,
+  .take-button,
+  .Warenkorb-middle {
+    width: 100%;
+    justify-content: center;
+  }
+}
+@media (width<690px) {
+  .menu-type-line {
+    flex-wrap: wrap;
   }
 }
 
@@ -671,21 +714,5 @@ footer {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-  }
-  .menu-type-line {
-    flex-wrap: wrap;
-  }
-}
-@media (width<430px) {
-  .delivery {
-    flex-direction: column;
-    background-color: white;
-    gap: 0.5rem;
-  }
-  .delivery-button,
-  .take-button,
-  .Warenkorb-middle {
-    width: 100%;
-    justify-content: center;
   }
 }
